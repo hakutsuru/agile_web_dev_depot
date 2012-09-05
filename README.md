@@ -36,5 +36,9 @@ Walkthrough Depot application with errata and changes for using MySQL on OS X.
     rake db:create # create databases
     rake db:migrate
 
+### Iteration A2
 
+Copyrighted book description test data... _Seriously?_
+
+A bit more orientation, I am _typing_ changes -- except for the seed data and css files. I want the experience of _creating_ the application, and fixing errors. Last year, when attempting to get through this, _Iteration A2_ was where the waters got rough. Perhaps the css has been tweaked, or I have become more savvy, but now, index view styling worked easily.
 
