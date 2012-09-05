@@ -33,8 +33,8 @@ Walkthrough Depot application with errata and changes for using MySQL on OS X.
 
 ### Iteration A1
 
+    rake db:create # create databases
+    rake db:migrate
 
-
-rake db:create -- to create databases
 
 
