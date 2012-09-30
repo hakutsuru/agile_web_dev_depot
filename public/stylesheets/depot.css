@@ -155,3 +155,18 @@
   color: #bfb;
   font-size: small;
 }
+
+/* Styles for the cart in main page */
+
+#store .cart_title {
+  font: 150% bold;
+}
+
+#store .item_price, #store .total_line {
+  text-align: right;
+}
+
+#store .total_line .total_cell {
+  font-weight: bold;
+  border-top: 1px solid #595;
+}
