@@ -54,6 +54,12 @@ _No changes._
 
 _No changes._
 
-### Interations E1, E2, E3
+### Interations E1, E2 & E3
 
 _No changes._
+
+### Iteration E Playtime
+
+Getting price into line_items table seemed important enough... And changing LineItem model to use appropriate pricing.
+
+
