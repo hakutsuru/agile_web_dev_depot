@@ -142,7 +142,7 @@ _No changes._
 
 Getting price into line_items table seemed important enough... And changing LineItem model to use appropriate pricing.
 
-### Iterations F1, F2, F3, F4
+### Iterations F1, F2, F3, F4, F5
 
-_No changes._
+_No changes... F5 iteration was added to capture testing changes, rather than appending those to F4._
 
