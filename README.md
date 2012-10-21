@@ -1,8 +1,10 @@
-## Depot - Agile Web Development with Rails
+## Depot -- Agile Web Development with Rails
 
 Reference: "Agile Web Development with Rails (4th Edition)" for Rails 3
 
 Walkthrough Depot application with errata and changes for using MySQL on OS X.
+
+I did not wish to veer too much from the text (e.g. starting with Nginx/Phusion), but Homebrew and RVM are essential.
 ***
 
 ### Configuration
@@ -25,8 +27,69 @@ Walkthrough Depot application with errata and changes for using MySQL on OS X.
 * rails 3.0.17
 ***
 
+## Iteration Descriptions
 
-### Intialization
+### Chapter 06 -- Creating the Application
+#### _A1 -- Creating the Products Maintenance Application_
+#### _A2 -- Making Prettier Listings_
+
+### Chapter 07 -- Validation and Unit Testing
+#### _B1 -- Validating!_
+#### _B2 -- Unit Testing of Models_
+
+### Chapter 08 -- Catalog Display
+#### _C1 -- Creating the Catalog Display_
+#### _C2 -- Adding a Page Layout_
+#### _C3 -- Unsing a Helper to Format the Price_
+#### _C4 -- Functional Testing of Controllers_
+
+### Chapter 09 -- Cart Creation
+#### _D1 -- Finding a Cart_
+#### _D2 -- Connecting Products to Carts_
+#### _D3 -- Adding a Button_
+
+### Chapter 10 -- A Smarter Cart
+#### _E1 -- Creating a Smarter Cart_
+#### _E2 -- Handing Errors_
+#### _E3 -- Finishing the Cart_
+
+### Chapter 11 -- Adding a Dash of Ajax
+#### _F1 -- Moving the Cart_
+#### _F2 -- Creating an Ajax-Based Cart_
+#### _F3 -- Highlighting Changes_
+#### _F4 -- Hiding an Empty Cart_
+#### _F5 -- Testing Ajax Changes_
+
+### Chapter 12 -- Check Out!
+#### _G1 -- Capturing an Order_
+#### _G2 -- Atom Feeds_
+#### _G3 -- Pagination_
+
+### Chapter 13 -- Sending Mail
+#### _H1 -- Sending Confirmation Emails_
+#### _H2 -- Integration Testing of Applications_
+
+### Chapter 14 -- Logging In
+#### _I1 -- Adding Users_
+#### _I2 -- Authenticating Users_
+#### _I3 -- Limiting Access_
+#### _I4 -- Adding a Sidebar, More Administration_
+
+### Chapter 14 -- Internationalization
+#### _J1 -- Selecting the Locale_
+#### _J2 -- Translating the Storefront_
+#### _J3 -- Translating Checkout_
+#### _J4 -- Adding a Locale Switcher_
+
+### Chapter 15 -- Deployment and Production
+#### _K1 -- Deploying with Phusion Passsenger and MySQL_
+#### _K2 -- Deploying Remotely with Capistrano_
+#### _K3 -- Checking Up on a Deployed Application_
+***
+
+## Commits -- Observations and Detours Required
+
+### Initialization
 
     rails new agile_web_dev_depot -d mysql
 
@@ -42,19 +105,36 @@ Copyrighted book description test data... _Seriously?_
 
 A bit more orientation, I am _typing_ changes -- except for the seed data and css files. I want the experience of _creating_ the application, and fixing errors. Last year, when attempting to get through this, _Iteration A2_ was where the waters got rough. Perhaps the css has been tweaked, or I have become more savvy, but now, index view styling worked easily.
 
-### Interations B1 & B2
+### Iterations B1 & B2
 
 _No changes._
 
-### Interations C1, C2, C3 & C4
+When first working through the text, I had trouble with testing, and made notes about the changes required (as found via Errata or _Stack Overflow_).
+
+Perhaps starting off with _minitest_ installed was a mistake, I should have made a clean gemset for this project...
+
+    # test_helper.rb
+
+    require 'rails/test_help'
+    require 'minitest' # add me
+
+    # gemfile
+
+    group :test do
+      # Pretty printed test output
+      gem 'turn', :require => false
+      gem 'minitest'  # add me
+    end
+
+### Iterations C1, C2, C3 & C4
 
 _No changes._
 
-### Interations D1, D2 & D3
+### Iterations D1, D2 & D3
 
 _No changes._
 
-### Interations E1, E2 & E3
+### Iterations E1, E2 & E3
 
 _No changes._
 
@@ -62,4 +142,7 @@ _No changes._
 
 Getting price into line_items table seemed important enough... And changing LineItem model to use appropriate pricing.
 
+### Iteration F1
+
+_No changes._
 
