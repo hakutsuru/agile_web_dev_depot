@@ -142,7 +142,7 @@ _No changes._
 
 Getting price into line_items table seemed important enough... And changing LineItem model to use appropriate pricing.
 
-### Iteration F1
+### Iterations F1, F2
 
 _No changes._
 
