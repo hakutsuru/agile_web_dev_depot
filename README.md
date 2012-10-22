@@ -142,7 +142,36 @@ _No changes._
 
 Getting price into line_items table seemed important enough... And changing LineItem model to use appropriate pricing.
 
-### Iterations F1, F2, F3, F4, F5
+### Iterations F1, F2, F3, F4 & F5
 
 _No changes... F5 iteration was added to capture testing changes, rather than appending those to F4._
+
+### Iteration G1
+
+Adding price to line_item (E Playtime) requires changes to order functional testing.
+
+    # order_controllers_test.rb
+    test "should get new" do
+      cart = Cart.create
+      session[:cart_id] = cart.id
+      LineItem.create(:cart => cart,
+                      :product => products(:ruby),
+                      :price => products(:ruby).price)
+    
+      get :new
+      assert_response :success
+    end
+
+Also, update line_items fixture to include pricing.
+
+    # line_items.yml
+    one:
+      product: ruby
+      price: 49.50
+      order: one
+
+    two:
+      product: ruby
+      price: 49.50
+      cart: one
 
