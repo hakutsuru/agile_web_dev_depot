@@ -175,3 +175,6 @@ Also, update line_items fixture to include pricing.
       price: 49.50
       cart: one
 
+### Iteration G2
+
+_No changes._
