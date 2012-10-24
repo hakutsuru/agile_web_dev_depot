@@ -40,7 +40,7 @@ I did not wish to veer too much from the text (e.g. starting with Nginx/Phusion)
 ### Chapter 08 -- Catalog Display
 #### _C1 -- Creating the Catalog Display_
 #### _C2 -- Adding a Page Layout_
-#### _C3 -- Unsing a Helper to Format the Price_
+#### _C3 -- Using a Helper to Format the Price_
 #### _C4 -- Functional Testing of Controllers_
 
 ### Chapter 09 -- Cart Creation
@@ -157,7 +157,7 @@ Adding price to line_item (E Playtime) requires changes to order functional test
       LineItem.create(:cart => cart,
                       :product => products(:ruby),
                       :price => products(:ruby).price)
-    
+
       get :new
       assert_response :success
     end
@@ -193,4 +193,8 @@ Iteration does not _really_ require changes, but... Sorting orders by created\_a
       end
     end
 
+### Iteration H1
 
+_No changes._
+
+Section _Email Configuration_ is informative, but in reality, if you are relying on email (e.g. running a business) -- you should use an email marketing service. I have worked with Mad Mimi, and the assistance offered by such services is remarkable (or Mad Mimi seemed so, your mileage may differ).
