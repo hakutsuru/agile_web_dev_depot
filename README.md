@@ -178,3 +178,19 @@ Also, update line_items fixture to include pricing.
 ### Iteration G2
 
 _No changes._
+
+### Iteration G3
+
+Iteration does not _really_ require changes, but... Sorting orders by created\_at might not give the results shown, as the generated orders may all have the same timestamp -- sort on order key to obtain the results shown in the text.
+
+    def index
+      @orders = Order.paginate :page => params[:page], :order => 'id desc',
+        :per_page => 10
+
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @orders }
+      end
+    end
+
+
