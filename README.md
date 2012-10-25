@@ -198,3 +198,14 @@ Iteration does not _really_ require changes, but... Sorting orders by created\_a
 _No changes._
 
 Section _Email Configuration_ is informative, but in reality, if you are relying on email (e.g. running a business) -- you should use an email marketing service. I have worked with Mad Mimi, and the assistance offered by such services is remarkable (or Mad Mimi seemed so, your mileage may differ).
+
+### Iteration H2
+
+Integration test fails due to mail.from match, this version works:
+
+    # check notification email
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ["dave@example.com"], mail.to
+    assert_equal ["depot@example.com"], mail.from
+    assert_equal "Pragmatic Store Order Confirmation", mail.subject
+
