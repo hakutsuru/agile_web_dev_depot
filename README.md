@@ -201,6 +201,7 @@ Section _Email Configuration_ is informative, but in reality, if you are relying
 
 ### Iteration H2
 
+
 Integration test fails due to mail.from match, this version works:
 
     # check notification email
@@ -209,3 +210,6 @@ Integration test fails due to mail.from match, this version works:
     assert_equal ["depot@example.com"], mail.from
     assert_equal "Pragmatic Store Order Confirmation", mail.subject
 
+### Iteration I1
+
+_No changes._
