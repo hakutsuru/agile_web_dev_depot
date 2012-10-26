@@ -210,6 +210,6 @@ Integration test fails due to mail.from match, this version works:
     assert_equal ["depot@example.com"], mail.from
     assert_equal "Pragmatic Store Order Confirmation", mail.subject
 
-### Iterations I1 & I2
+### Iterations I1, I2 & I3
 
 _No changes._
