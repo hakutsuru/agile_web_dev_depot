@@ -1,10 +1,15 @@
-require 'digest/sha2'
+require 'bcrypt'
 
 class User < ActiveRecord::Base
+  PASSWORD_MIN_LENGTH = 6
+  PASSWORD_MAX_LENGTH = 42
   after_destroy :ensure_an_admin_remains
   validates :name, :presence => true, :uniqueness => true
 
   validates :password, :confirmation => true
+  validates_length_of :password,
+                      :minimum => PASSWORD_MIN_LENGTH, 
+                      :maximum => PASSWORD_MAX_LENGTH
   attr_accessor :password_confirmation
   attr_reader :password
 
@@ -17,23 +22,25 @@ class User < ActiveRecord::Base
   end
 
   def User.authenticate(name, password)
-    if user = find_by_name(name)
-      if user.hashed_password == encrypt_password(password, user.salt)
-        user
+    if password.length < PASSWORD_MAX_LENGTH
+      if user = find_by_name(name)
+        if BCrypt::Password.new(user.hashed_password) == password
+          user
+        end
       end
     end
   end
 
-  def User.encrypt_password(password, salt)
-    Digest::SHA2.hexdigest(password + "wibble" + salt)
+  def User.encrypt_password(password)
+    # beware, *not* idempotent (includes salt)
+    BCrypt::Password.create(password)
   end
 
   # 'password' is a virtual attribute
   def password=(password)
     @password = password
     if password.present?
-      generate_salt
-      self.hashed_password = self.class.encrypt_password(password, salt)
+      self.hashed_password = self.class.encrypt_password(password)
     end
   end
 
@@ -41,9 +48,5 @@ class User < ActiveRecord::Base
 
   def password_must_be_present
     errors.add(:password, "Missing password") unless hashed_password.present?
-  end
-
-  def generate_salt
-    self.salt = self.object_id.to_s + rand.to_s
   end
 end

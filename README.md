@@ -82,7 +82,7 @@ I did not wish to veer too much from the text (e.g. starting with Nginx/Phusion)
 #### _J4 -- Adding a Locale Switcher_
 
 ### Chapter 15 -- Deployment and Production
-#### _K1 -- Deploying with Phusion Passsenger and MySQL_
+#### _K1 -- Deploying with Phusion Passenger and MySQL_
 #### _K2 -- Deploying Remotely with Capistrano_
 #### _K3 -- Checking Up on a Deployed Application_
 ***
@@ -213,3 +213,159 @@ Integration test fails due to mail.from match, this version works:
 ### Iterations I1, I2, I3 & I4
 
 _No changes._
+
+### Iteration I <3 Cargo Cult Security
+
+Abstract: A trip down the rabbit hole of security theater... _Best practiced_ salted SHA hashing is _inadequate_. Here is the infamous explanation -- [_How To Safely Store A Password_](http://codahale.com/how-to-safely-store-a-password/).
+
+If you are reading this, you might have oddly shaped die (with die-cast figurines), and a weary wariness of blog title _hype_... So here is the opposing view: [_Don't use bcrypt_](http://www.unlimitednovelty.com/2012/03/dont-use-bcrypt.html) -- an _adjacent facet_ of the original article. 
+
+And the _punchline_, hail the [new normal](http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html).
+
+I suspect brute-force attacks on a Rails site or its compromised data store are rare compared to an individual account being exploited. I would add application activity logging -- using production logs to figure out what an attacker did while masquerading as Mr. Unfortunate feels like a chore.
+
+But in the interest of being exemplary acolytes of _Hacker News_, let's fix our hashing...
+
+1) Update gemfile to include required bcrypt-ruby gem 
+
+    gem "bcrypt-ruby"
+
+2) Install new bundle
+
+    bundle install
+
+3) Restart server
+
+Be sure to restart the application server.
+
+4) Update User model
+
+    require 'bcrypt'
+
+    class User < ActiveRecord::Base
+      after_destroy :ensure_an_admin_remains
+      validates :name, :presence => true, :uniqueness => true
+
+      validates :password, :confirmation => true
+      attr_accessor :password_confirmation
+      attr_reader :password
+
+      validate :password_must_be_present
+
+      def ensure_an_admin_remains
+        if User.count.zero?
+          raise "Can't delete last user"
+        end
+      end
+
+      def User.authenticate(name, password)
+        if user = find_by_name(name)
+          if BCrypt::Password.new(user.hashed_password) == password
+            user
+          end
+        end
+      end
+
+      def User.encrypt_password(password)
+        # beware, *not* idempotent (includes salt)
+        BCrypt::Password.create(password)
+      end
+
+      # 'password' is a virtual attribute
+      def password=(password)
+        @password = password
+        if password.present?
+          self.hashed_password = self.class.encrypt_password(password)
+        end
+      end
+
+      private
+
+      def password_must_be_present
+        errors.add(:password, "Missing password") unless hashed_password.present?
+      end
+    end
+
+5) Update users fixture
+
+Make sure there is more than one record in the fixture, to avoid violating validation when controller attempts to delete user. 
+
+    one:
+      name: dave
+      hashed_password: <%= User.encrypt_password('secret') %>
+
+    two:
+      name: gossamer
+      hashed_password: <%= User.encrypt_password('hair-raising hare') %>
+
+
+6) Make tests work (e.g. rake test)
+
+Depending on how much you researched the bcrypt gem, or how well you copied example code, this is where you make the tests work.
+
+You may have started testing via rails console, after doing something like this...
+
+    User.delete_all
+    User.create(:name => 'sean', :password => 'secret')
+
+But then found login would not work because _authenticate_ returned nil (if we agree _encrypt\_password_ was simple to update).
+
+bcrypt was implemented such that it relies on object initialization and comparison. _New_ recreates the Password object, which uses a comparison method (aka "==") to generate a digest based on its salt and the given plain-text password -- which is to say...
+
+    Password_instance == password # words great
+    password == Password_instance # ruh-roh 
+
+(If you are new to rails, you have to exit and invoke console whenever you want to test changes made in your application).
+
+7) Eliminate salt column
+
+    rails generate migration RemoveSaltFromUser salt:string
+    rake db:migrate
+
+Be sure to update user _show.html.erb_ view.
+
+    <p id="notice"><%= notice %></p>
+
+    <p>
+      <b>Name:</b>
+      <%= @user.name %>
+    </p>
+
+    <p>
+      <b>Hashed password:</b>
+      <%= @user.hashed_password %>
+    </p>
+
+
+    <%= link_to 'Edit', edit_user_path(@user) %> |
+    <%= link_to 'Back', users_path %>
+
+
+8) Prevent mischief
+
+What more could possibly be worth doing here?
+
+Update User model to prevent denial of service attack...
+
+    class User < ActiveRecord::Base
+      PASSWORD_MIN_LENGTH = 6
+      PASSWORD_MAX_LENGTH = 42
+      # ...
+
+      validates :password, :confirmation => true
+      validates_length_of :password,
+                          :minimum => PASSWORD_MIN_LENGTH, 
+                          :maximum => PASSWORD_MAX_LENGTH
+      # ...
+
+      def User.authenticate(name, password)
+        if password.length < PASSWORD_MAX_LENGTH
+          if user = find_by_name(name)
+            if BCrypt::Password.new(user.hashed_password) == password
+              user
+            end
+          end
+        end
+      end
+
+bcrypt is used to ensure authentication is _slower_ than SHA hash checking. An attacker could attempt to log in with a _large_ password, thus generating deleterious/costly load on the server.

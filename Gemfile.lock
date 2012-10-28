@@ -29,6 +29,7 @@ GEM
       activesupport (= 3.0.17)
     activesupport (3.0.17)
     arel (2.0.10)
+    bcrypt-ruby (3.0.1)
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -75,6 +76,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
   mysql2 (~> 0.2.17)
   rails (= 3.0.17)
   will_paginate (>= 3.0.pre)
