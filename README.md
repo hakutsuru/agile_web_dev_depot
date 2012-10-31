@@ -369,3 +369,10 @@ Update User model to prevent denial of service attack...
       end
 
 bcrypt is used to ensure authentication is _slower_ than SHA hash checking. An attacker could attempt to log in with a _large_ password, thus generating deleterious/costly load on the server.
+
+### Iteration J1
+
+_No changes._
+
+Text should have explained removal of _get "store/index"_ when scoping routes by locale.
+
