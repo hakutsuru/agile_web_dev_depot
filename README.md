@@ -376,3 +376,6 @@ _No changes._
 
 Text should have explained removal of _get "store/index"_ when scoping routes by locale.
 
+### Iteration J2
+
+_No changes._
