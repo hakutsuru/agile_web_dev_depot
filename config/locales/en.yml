@@ -3,6 +3,18 @@
 
 en:
 
+  thanks:           "Thank you for your order"
+
+  activerecord:
+    models:
+      order:        "order"
+  errors:
+    template:
+      body:         "There were problems with the following fields:"
+      header:
+        one:        "1 error prohibited this %{model} from being saved"
+        other:      "%{count} errors prohibited this %{model} from being saved"
+
   number:
     currency:
       format:
@@ -30,3 +42,14 @@ en:
       title:        "Your Cart"
       empty:        "Empty Cart"
       checkout:     "Checkout"
+
+  orders:
+    new:
+      legend:       "Please Enter Your Details"
+    form:
+      name:         "Name"
+      address_html: "Address"
+      email:        "E-mail"
+      pay_type:     "Pay with"
+      pay_prompt_html: "Select a payment method"
+      submit:       "Place Order"

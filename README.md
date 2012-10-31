@@ -379,3 +379,80 @@ Text should have explained removal of _get "store/index"_ when scoping routes by
 ### Iteration J2
 
 _No changes._
+
+### Iteration J3
+
+The following quote was not accurate...
+
+> Note that we do not normally have to explicitly call I18n functions on labels,
+> unless we want to do something special like allowing HTML entities.
+
+Thus, the order form was adjusted to add more translations...
+
+    <%= form_for(@order) do |f| %>
+      # ...
+
+      <div class="field">
+        <%= f.label :name, t('.name')  %><br />
+        <%= f.text_field :name, :size => 40 %>
+      </div>
+      <div class="field">
+        <%= f.label :address, t('.address_html') %><br />
+        <%= f.text_area :address, :rows => 3, :cols => 40 %>
+      </div>
+      <div class="field">
+        <%= f.label :email, t('.email')  %><br />
+        <%= f.email_field :email, :size => 40 %>
+      </div>
+      <div class="field">
+        <%= f.label :pay_type, t('.pay_type')  %><br />
+        <%= f.select :pay_type, Order::PAYMENT_TYPES,
+                     :prompt => t('.pay_prompt_html') %>
+      </div>
+      <div class="actions">
+        <%= f.submit t('.submit') %>
+      </div>
+    <% end %>
+
+Figure 15.5 conflicts with the _es.yml_ configuration for pay_type, fix the configuration to use "Forma de pago" (to be consistent with later translations).
+
+Also, this appeared to be inaccurate...
+
+> Note that there is no need to provide English equivalents for this, because those messages are built in to Rails.
+
+I would love to know how this got weird, but to get error messages working, the Spanish configuration included:
+
+    # es.yml
+    activerecord:
+      models:
+        order:        "pedido"
+      attributes:
+        order:
+          address:    "Direcc&oacute;n"
+          name:       "Nombre"
+          email:      "E-mail"
+          pay_type:   "Forma de pago"
+      errors:
+        messages:
+          inclusion:  "no est&aacute; incluido en la lista"
+          blank:      "no puede quedar en blanco"
+    errors:
+      template:
+        body:         "Hay problemas con los siguientes campos:"
+        header:
+          one:        "1 error ha impedido que este %{model} se guarde"
+          other:      "%{count} errores han impedido que este %{model} se guarde"
+
+And the English configuration included:
+
+    # en.yml
+    activerecord:
+      models:
+        order:        "order"
+    errors:
+      template:
+        body:         "There were problems with the following fields:"
+        header:
+          one:        "1 error prohibited this %{model} from being saved"
+          other:      "%{count} errors prohibited this %{model} from being saved"
+
