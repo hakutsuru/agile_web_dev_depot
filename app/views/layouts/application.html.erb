@@ -9,6 +9,13 @@
 </head>
 <body id="store">
   <div id="banner">
+    <%= form_tag store_path, :class => 'locale' do %>
+      <%= select_tag 'set_locale',
+        options_for_select(LANGUAGES, I18n.locale.to_s),
+        :onchange => 'this.form.submit()' %>
+      <%= submit_tag 'submit' %>
+      <%= javascript_tag "$$('.locale input').each(Element.hide)" %>
+    <% end %>
     <%= image_tag("logo.png") %>
     <%= @page_title || t('.title') %>
   </div>
