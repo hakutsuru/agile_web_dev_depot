@@ -197,7 +197,7 @@ Iteration does not _really_ require changes, but... Sorting orders by created\_a
 
 _No changes._
 
-Section _Email Configuration_ is informative, but in reality, if you are relying on email (e.g. running a business) -- you should use an email marketing service. I have worked with Mad Mimi, and the assistance offered by such services is remarkable (or Mad Mimi seemed so, your mileage may differ).
+Section _Email Configuration_ is informative, but in reality, if you are relying on email (e.g. running a business) -- you should use an email marketing service. I have worked with [Mad Mimi](http://www.madmimi.com), and the assistance offered by such services is remarkable (or Mad Mimi seemed so, your mileage may differ).
 
 ### Iteration H2
 
@@ -218,7 +218,7 @@ _No changes._
 
 Abstract: A trip down the rabbit hole of security theater... _Best practiced_ salted SHA hashing is _inadequate_. Here is the infamous explanation -- [_How To Safely Store A Password_](http://codahale.com/how-to-safely-store-a-password/).
 
-If you are reading this, you might have oddly shaped die (with die-cast figurines), and a weary wariness of blog title _hype_... So here is the opposing view: [_Don't use bcrypt_](http://www.unlimitednovelty.com/2012/03/dont-use-bcrypt.html) -- an _adjacent facet_ of the original article. 
+If you are reading this, you might have oddly shaped die (with die-cast figurines), and a weary wariness of blog title _hype_... Alas, here is the opposing view: [_Don't use bcrypt_](http://www.unlimitednovelty.com/2012/03/dont-use-bcrypt.html) -- an _adjacent facet_ of the original article. 
 
 And the _punchline_, hail the [new normal](http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html).
 
@@ -459,3 +459,11 @@ And the English configuration included:
 ### Iteration J4
 
 _No changes._
+
+### Iterations K1, K2 & K3
+
+_Skipped._
+
+This seems a core weakness of the text, tool choice and platform support issues. I have worked with Nginx and Passenger, and installation/permissions problems can be an intense hassle.
+
+The obvious way forward is Vagrant. I have been reading Copeland and Burns [_Deploying Rails_](http://pragprog.com/book/cbdepra/deploying-rails), and it is a good reference from the DevOps perspective.
